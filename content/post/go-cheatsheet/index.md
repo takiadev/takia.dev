@@ -162,43 +162,6 @@ delete(mapWithValues, "key")
 maps.Equal(map1, map2)
 ```
 
-### Structs
-
-Structs are passed by value, they cannot be modified by functions unless when using a pointer. Struct fields are default initialized to their respective zero values.
-
-```go
-type person struct {
-    name string
-    age  int
-}
-
-func (p person) String() string {
-	return fmt.Sprintf("%s (age:%d)", p.name, p.age)
-}
-
-var structOfZeros person // == {"", 0}
-var julien = person{"Julien", 30}
-var alisha = person{name: "Alisha"}
-alisha.age = 30
-```
-
-### User-Defined types
-
-There is no implicit cast between user-defined types.
-
-```go    
-type EscapedString string
-
-func safeEscape(s string) EscapedString {
-	escaped := s //html.EscapeString(s)
-	return EscapedString(escaped)
-}
-
-func displayOnPage(s EscapedString) {
-	// ...
-}
-```
-
 ## Control Structures
 
 ### If statements
@@ -338,36 +301,36 @@ skip:
 ```go
 
 func simpleFunction(arg1 int, arg2 int) int {
-	return arg1 + arg2
+    return arg1 + arg2
 }
 
 func genericFunction[T any](arg1 T) T {
-	return arg1
+    return arg1
 }
 
 func variadicFunction(vals ...int) int {
-	result := 0
-	for _, v := range vals {
-		result += v
-	}
-	return result
+    result := 0
+    for _, v := range vals {
+        result += v
+    }
+    return result
 }
 
 func multipleReturnValues() (int, error) {
-	return 0, nil
+    return 0, nil
 }
 
 func namedReturnValues() (retA int, err error) {
-	// defer registers statements to be executed at exit
-	// named return values allows defer to modify them
-	defer func() {
-		if err != nil {
-			retA = 0
-			// rollback code
-		}
-	}()
+    // defer registers statements to be executed at exit
+    // named return values allows defer to modify them
+    defer func() {
+        if err != nil {
+            retA = 0
+            // rollback code
+        }
+    }()
 
-	return 1, nil
+    return 1, nil
 }
 ```
 
@@ -395,26 +358,69 @@ func f() {
 }
 ```
 
-### Methods & Member functions
+## User-Defined types
 
-Methods can be defined on type as follows:
+### User-Defined types
+
+User-Defined type can be declared as follows:
+
+```go
+type NewType ExistingType
+```
+
+There is no implicit cast between user-defined types. The code belows shows how this can be exploited to ensure that every string has been escaped before it is displayed on a webpage:
+
+```go
+type EscapedString string
+
+func safeEscape(s string) EscapedString {
+    escaped := s //html.EscapeString(s)
+    return EscapedString(escaped)
+}
+
+func displayOnPage(s EscapedString) {
+    // ...
+}
+```
+
+### Structs
+
+Structs are passed by value, they cannot be modified by functions unless when using a pointer. Struct fields are default initialized to their respective zero values.
 
 ```go
 type person struct {
-	name string
-	age  int
+    name string
+    age  int
 }
 
+var structOfZeros person // == {"", 0}
+var julien = person{"Julien", 30}
+var alisha = person{name: "Alisha"}
+alisha.age = 30
+```
+
+### Methods & Member functions
+
+Methods can be defined on user-defined types as follows:
+
+```go
+type person struct {
+    name string
+    age  int
+}
+
+// value-receiver methods cannot modify the instance
 func (p person) String() string {
-	return fmt.Sprintf("%s (age:%d)", p.name, p.age)
+    return fmt.Sprintf("%s (age:%d)", p.name, p.age)
 }
 
+// pointer-receiver methods can modify the instance
 func (p *person) GrowOld() {
     // handle case where p == nil!
-	p.age += 1
+    p.age += 1
 }
 ```
-Go will automatically reference or dereference values and pointer to match the value-receiver method or pointer-receiver method. But remember that value-receiver work on a copy of the object.
+Go will automatically reference or dereference values and pointer to match the value-receiver method or pointer-receiver method. But remember that value-receiver methods work on a copy of the object and therefore should not attempt to modify its member values.
 
 ```go
 p1 := person{"Julien", 30}
@@ -425,3 +431,163 @@ p2 = &p1
 p2.String() // auto dereference
 p2.GrowOld()
 ```
+
+### Type Embeddings
+
+Type embeddings embed one `InnerType` inside an `OuterType` and make methods defined on `InnerType` available on instances of `OuterType`:
+
+For instance, the given `Inner` type:
+```go
+type Inner struct {
+    innerField int
+}
+
+func (i Inner) ShowInnerField() {
+    println(i.innerField)
+}
+```
+
+Can be embedded inside an `Outer` type as follows:
+
+```go
+type Outer struct {
+    Inner
+    outerField int
+}
+
+o := Outer{
+    Inner: Inner{
+        innerField: 5,
+    },
+    outerField: 10,
+}
+```
+
+And the `Inner` method can be called on the `Outer` object:
+```go
+o.ShowInnerField()
+```
+
+Embedding merge the method set of `Inner` and `Outer` making it possible to implement interfaces more easily. But beware that:
+
+**Embeddings are not inheritance**:
+- they do not provide implicit slicing or type cast from derived type to parent type
+- they do not provide dynamic dispatch and method resolution
+
+### Interfaces
+
+Interfaces specify what the caller code needs, they define the set of method than an object is expected to offer. Interfaces are similar to python's Protocols: unlike in Java they are implemented implicitly.
+
+```go
+type Provider interface {
+    ProviderID() string
+}
+```
+
+Any object with a `Read() string` method automatically implements the `Reader` interface. 
+
+```go
+type MyProvider struct {
+    name string
+}
+func (p MyProvider) ProviderID() string {
+    return p.name
+}
+```
+
+The following function requests a `Provider` instance and can be used with our `MyProvider` object implicitely:
+
+```go
+func useProvider(p Provider) {
+	// ...
+}
+
+var p = MyProvider{"name"}
+useProvider(p)
+```
+
+#### Interface Embeddings
+Interfaces can be merged together using interface embeddings:
+
+```go
+type Reader interface{}
+type Writer interface{}
+
+type ReadWriter interface {
+    Reader
+    Writer
+}
+```
+
+#### nil Interfaces
+
+Under the hood, interface are implemented with two pointers: one for the instance and one for the instance type:
+
+```go
+type Interface[T any] struct {
+    type *Type[T]
+    value *T
+}
+```
+
+An interface is considered `nil` if it has not been assigned a type. In the code below, even though `nilInstance` is set to the `nil` pointer, the `nilInterface` object is assigned the `Object` type and therefore does not evaluate to `nil`:
+
+```go
+
+type Interface interface {
+	Method()
+}
+
+type Object struct{}
+func (o Object) Method() {
+}
+
+var nilInstance *O
+var notNilInterface I = nilInstance
+
+println("Instance is nil:", nilInstance == nil) // true
+println("Interface is nil:", notNilInterface == nil) // false
+```
+
+### Enums
+
+Go uses `iota`, a special counter whose value increases for each constant in a const block. It can be used to assign increasing values to consecutive const values. Note that it is possible to use `_` to disable the default value.
+
+```go
+type EnumType int
+const (
+    EnumDefaultValue EnumType = iota
+    EnumValue1
+    EnumValue2
+    EnumValue3
+)
+```
+
+### Generics
+
+A function or type is said generic when it accepts type arguments. Type arguments are passed between square brackets `[]`. In the code below, the generic type argument `T` implements the `comparable` constraint. Any interface can be used as a type constraint.
+
+```go
+type Set[T comparable] struct {
+	storage map[T]bool
+}
+
+func (s *Set[T]) add(value T) {
+	if s.storage == nil {
+		s.storage = map[T]bool{}
+	}
+	s.storage[value] = true
+}
+func (s *Set[T]) remove(value T) {
+	delete(s.storage, value)
+}
+func (s Set[T]) contains(value T) bool {
+	return s.storage[value]
+}
+
+var s = Set[int]{}
+s.add(5)
+println("Set contains 5?", s.contains(5))
+s.remove(5)
+```
+
