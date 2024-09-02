@@ -1,3 +1,8 @@
+[goldmark.parser]
+wrapStandAloneImageWithinParagraph = false
+[goldmark.parser.attribute]
+block = true
+
 # Markdown renderer configuration
 [goldmark.renderer]
 unsafe = true
