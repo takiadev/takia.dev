@@ -154,10 +154,6 @@ if !ok {
     // ...
 }
 
-if v, ok := emptyMap["hello"]; ok {
-    // use v here
-}
-
 delete(mapWithValues, "key")
 maps.Equal(map1, map2)
 ```
@@ -548,6 +544,34 @@ var notNilInterface I = nilInstance
 println("Instance is nil:", nilInstance == nil) // true
 println("Interface is nil:", notNilInterface == nil) // false
 ```
+
+A common pitfall is to pre-declare the error variable to return at the end of a function as in this snippet:
+
+```go
+type CustomError struct {}
+func (c CustomError) Error() string { return "message" }
+
+func brokenFunction(arg int) error {
+    var err CustomError; // nil CustomError
+    if arg < 0 {
+        err = CustomError{}
+    }
+    return err // BUG! The error interface is not nil
+}
+```
+
+The function would then be used as follows:
+
+```go
+var err error = brokenFunction(5)
+if err != nil {
+    println("ERROR")
+}
+```
+
+Which will always enter the error block because the `error` interface does not evaluate to `nil`. (Its type pointer is assigned to `CustomError`!)
+
+To avoid this pitfall, declare variables of the `error` type instead of the custom error type.
 
 ### Enums
 
