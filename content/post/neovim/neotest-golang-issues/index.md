@@ -4,6 +4,7 @@ description: How to fix this common error on windows 11
 slug: neotest-golang-issues
 date: 2024-09-19 00:00:00+0000
 categories:
+    - Neovim
     - Debug
 ---
 

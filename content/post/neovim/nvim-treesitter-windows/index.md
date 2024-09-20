@@ -3,6 +3,8 @@ title: How to install neovim treesitter on Windows 11
 description: How to install neovim treesiteer on windows 11
 slug: nvim-treesitter-windows-11
 date: 2024-09-06 01:00:00+0000
+categories:
+    - Neovim
 ---
 
 It was a real hassle to get [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) to work on Windows 11. Here is how I got it working. - A working installation guide in 2024.
