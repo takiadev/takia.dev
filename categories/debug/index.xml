@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Debug on Takia Dev</title><link>https://takia.dev/categories/debug/</link><description>Recent content in Debug on Takia Dev</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://takia.dev/categories/debug/index.xml" rel="self" type="application/rss+xml"/><item><title>Neotest-Golang: Solving Test(s) not associated issue</title><link>https://takia.dev/neotest-golang-issues/</link><pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate><guid>https://takia.dev/neotest-golang-issues/</guid><description>&lt;p>A common error on Windows 10 and Windows 11 that pops up when attempting to use neotest-golang in neovim is the infamous &amp;ldquo;&lt;strong>Test(s) not associated (not found/executed)&lt;/strong>&amp;rdquo;.&lt;/p>
+&lt;p>This error happens because neotest-golang is unable to read the output of the test command. There are several reasons why neotest-golang might not be able to parse the output of your tests, here are the most common ways to fix it.&lt;/p>
+&lt;h2 id="use-gotestsum">Use gotestsum
+&lt;/h2>&lt;p>On windows, you can fix it by changing the test runner to &lt;code>gotestsum&lt;/code> as follows:&lt;/p>
+&lt;p>First, install &lt;code>gotestsum&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">go&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">gotest&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">tools&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">gotestsum&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="n">latest&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Then, configure neotest-golang to use the new runner:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">require(&amp;#34;neotest&amp;#34;).setup({
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> adapters = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> require(&amp;#34;neotest-golang&amp;#34;)({
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> runner = &amp;#34;gotestsum&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }),
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">})
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>For example, if you are using &lt;code>lazy.nvim&lt;/code> plugin manager or the &lt;code>LazyVim&lt;/code> distribution, here is how to do it: create a new file in the plugins directory with this content:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-lua" data-lang="lua">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- file: lua/plugins/neotest-golang.lua&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">return&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;nvim-neotest/neotest&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">optional&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dependencies&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;fredrikaverpil/neotest-golang&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">opts&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">adapters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;neotest-golang&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">-- Here we can set options for neotest-golang, e.g.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">-- go_test_args = { &amp;#34;-v&amp;#34;, &amp;#34;-race&amp;#34;, &amp;#34;-count=1&amp;#34;, &amp;#34;-timeout=60s&amp;#34; },&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dap_go_enabled&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="c1">-- requires leoluz/nvim-dap-go&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">runner&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;gotestsum&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">go_test_args&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-race&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-count=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">-- &amp;#34;-coverprofile=&amp;#34; .. vim.fn.getcwd() .. &amp;#34;/coverage.out&amp;#34;,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The configuration options for &lt;code>gotestsum&lt;/code> in neotest-golang is available in this unmerged pull request (as of now at least): &lt;a class="link" href="https://github.com/fredrikaverpil/neotest-golang/pull/150" target="_blank" rel="noopener"
+>documentation&lt;/a>.&lt;/p>
+&lt;p>Source: &lt;a class="link" href="https://github.com/fredrikaverpil/neotest-golang/issues/147" target="_blank" rel="noopener"
+>relevant issue&lt;/a>&lt;/p>
+&lt;h2 id="ubuntu-do-not-use-the-snaps-install">Ubuntu: do not use the snaps install
+&lt;/h2>&lt;p>On ubuntu, installing GO via snaps cause and output issue when running from nvim which prevents neotest-golang from collecting the test outputs. Instead, download the go tarball and install it from there.&lt;/p>
+&lt;p>Source: &lt;a class="link" href="https://github.com/fredrikaverpil/neotest-golang/discussions/161" target="_blank" rel="noopener"
+>Relevant issue&lt;/a>.&lt;/p>
+&lt;h2 id="windows-install-mingw-gcc">Windows: Install mingw GCC
+&lt;/h2>&lt;p>Neotest-golang by default attempts to run the tests with the flag &lt;code>-race&lt;/code>. On windows, you can only run &lt;code>go test -race&lt;/code> if you have gcc installed. Thankfully the fix is easy. First, install &lt;code>mingw&lt;/code> as follows:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># In powershell with admin rights
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">choco install mingw
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Then make sure that &lt;code>$env:CC&lt;/code> is set to &lt;code>gcc&lt;/code> by editing your environment variables as shows in the screenshots below.&lt;/p>
+&lt;p>&lt;img src="https://takia.dev/neotest-golang-issues/WindowsMenuToEditEnvVars.png"
+width="1145"
+height="1073"
+srcset="https://takia.dev/neotest-golang-issues/WindowsMenuToEditEnvVars_hu8545614216028373805.png 480w, https://takia.dev/neotest-golang-issues/WindowsMenuToEditEnvVars_hu14050107743061286552.png 1024w"
+loading="lazy"
+alt="Start menu to edit environment variables"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="256px"
+> &lt;img src="https://takia.dev/neotest-golang-issues/EditCCEnvVar.png"
+width="870"
+height="958"
+srcset="https://takia.dev/neotest-golang-issues/EditCCEnvVar_hu8491573363570073669.png 480w, https://takia.dev/neotest-golang-issues/EditCCEnvVar_hu8916891233037989176.png 1024w"
+loading="lazy"
+alt="Edit environment variables dialog"
+class="gallery-image"
+data-flex-grow="90"
+data-flex-basis="217px"
+>&lt;/p>
+&lt;p>Alternatively you can also remove the &lt;code>-race&lt;/code> flag from you neotest-golang configuration as follows:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-lua" data-lang="lua">&lt;span class="line">&lt;span class="cl">&lt;span class="n">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;neotest&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">setup&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">adapters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;neotest-golang&amp;#34;&lt;/span>&lt;span class="p">)({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">runner&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;gotestsum&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">go_test_args&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">-- &amp;#34;-race&amp;#34;, -- remove the -race flag&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-count=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Or, if you use either &lt;code>lazy.nvim&lt;/code> or &lt;code>LazyVim&lt;/code> create a file in the &lt;code>plugins&lt;/code> directory with this content:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-lua" data-lang="lua">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- file: lua/plugins/neotest-golang.lua&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">return&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;nvim-neotest/neotest&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">optional&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dependencies&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;fredrikaverpil/neotest-golang&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">opts&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">adapters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;neotest-golang&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">runner&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;gotestsum&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">go_test_args&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-v&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">-- &amp;#34;-race&amp;#34;, -- remove the -race flag&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-count=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Source: &lt;a class="link" href="https://github.com/fredrikaverpil/neotest-golang/issues/193" target="_blank" rel="noopener"
+>relevant issue&lt;/a>.&lt;/p>
+&lt;h2 id="some-error-outputs">Some error outputs
+&lt;/h2>&lt;p>Here are some error outputs you might come accross when attempting to solve these errors.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;span class="lnt">117
+&lt;/span>&lt;span class="lnt">118
+&lt;/span>&lt;span class="lnt">119
+&lt;/span>&lt;span class="lnt">120
+&lt;/span>&lt;span class="lnt">121
+&lt;/span>&lt;span class="lnt">122
+&lt;/span>&lt;span class="lnt">123
+&lt;/span>&lt;span class="lnt">124
+&lt;/span>&lt;span class="lnt">125
+&lt;/span>&lt;span class="lnt">126
+&lt;/span>&lt;span class="lnt">127
+&lt;/span>&lt;span class="lnt">128
+&lt;/span>&lt;span class="lnt">129
+&lt;/span>&lt;span class="lnt">130
+&lt;/span>&lt;span class="lnt">131
+&lt;/span>&lt;span class="lnt">132
+&lt;/span>&lt;span class="lnt">133
+&lt;/span>&lt;span class="lnt">134
+&lt;/span>&lt;span class="lnt">135
+&lt;/span>&lt;span class="lnt">136
+&lt;/span>&lt;span class="lnt">137
+&lt;/span>&lt;span class="lnt">138
+&lt;/span>&lt;span class="lnt">139
+&lt;/span>&lt;span class="lnt">140
+&lt;/span>&lt;span class="lnt">141
+&lt;/span>&lt;span class="lnt">142
+&lt;/span>&lt;span class="lnt">143
+&lt;/span>&lt;span class="lnt">144
+&lt;/span>&lt;span class="lnt">145
+&lt;/span>&lt;span class="lnt">146
+&lt;/span>&lt;span class="lnt">147
+&lt;/span>&lt;span class="lnt">148
+&lt;/span>&lt;span class="lnt">149
+&lt;/span>&lt;span class="lnt">150
+&lt;/span>&lt;span class="lnt">151
+&lt;/span>&lt;span class="lnt">152
+&lt;/span>&lt;span class="lnt">153
+&lt;/span>&lt;span class="lnt">154
+&lt;/span>&lt;span class="lnt">155
+&lt;/span>&lt;span class="lnt">156
+&lt;/span>&lt;span class="lnt">157
+&lt;/span>&lt;span class="lnt">158
+&lt;/span>&lt;span class="lnt">159
+&lt;/span>&lt;span class="lnt">160
+&lt;/span>&lt;span class="lnt">161
+&lt;/span>&lt;span class="lnt">162
+&lt;/span>&lt;span class="lnt">163
+&lt;/span>&lt;span class="lnt">164
+&lt;/span>&lt;span class="lnt">165
+&lt;/span>&lt;span class="lnt">166
+&lt;/span>&lt;span class="lnt">167
+&lt;/span>&lt;span class="lnt">168
+&lt;/span>&lt;span class="lnt">169
+&lt;/span>&lt;span class="lnt">170
+&lt;/span>&lt;span class="lnt">171
+&lt;/span>&lt;span class="lnt">172
+&lt;/span>&lt;span class="lnt">173
+&lt;/span>&lt;span class="lnt">174
+&lt;/span>&lt;span class="lnt">175
+&lt;/span>&lt;span class="lnt">176
+&lt;/span>&lt;span class="lnt">177
+&lt;/span>&lt;span class="lnt">178
+&lt;/span>&lt;span class="lnt">179
+&lt;/span>&lt;span class="lnt">180
+&lt;/span>&lt;span class="lnt">181
+&lt;/span>&lt;span class="lnt">182
+&lt;/span>&lt;span class="lnt">183
+&lt;/span>&lt;span class="lnt">184
+&lt;/span>&lt;span class="lnt">185
+&lt;/span>&lt;span class="lnt">186
+&lt;/span>&lt;span class="lnt">187
+&lt;/span>&lt;span class="lnt">188
+&lt;/span>&lt;span class="lnt">189
+&lt;/span>&lt;span class="lnt">190
+&lt;/span>&lt;span class="lnt">191
+&lt;/span>&lt;span class="lnt">192
+&lt;/span>&lt;span class="lnt">193
+&lt;/span>&lt;span class="lnt">194
+&lt;/span>&lt;span class="lnt">195
+&lt;/span>&lt;span class="lnt">196
+&lt;/span>&lt;span class="lnt">197
+&lt;/span>&lt;span class="lnt">198
+&lt;/span>&lt;span class="lnt">199
+&lt;/span>&lt;span class="lnt">200
+&lt;/span>&lt;span class="lnt">201
+&lt;/span>&lt;span class="lnt">202
+&lt;/span>&lt;span class="lnt">203
+&lt;/span>&lt;span class="lnt">204
+&lt;/span>&lt;span class="lnt">205
+&lt;/span>&lt;span class="lnt">206
+&lt;/span>&lt;span class="lnt">207
+&lt;/span>&lt;span class="lnt">208
+&lt;/span>&lt;span class="lnt">209
+&lt;/span>&lt;span class="lnt">210
+&lt;/span>&lt;span class="lnt">211
+&lt;/span>&lt;span class="lnt">212
+&lt;/span>&lt;span class="lnt">213
+&lt;/span>&lt;span class="lnt">214
+&lt;/span>&lt;span class="lnt">215
+&lt;/span>&lt;span class="lnt">216
+&lt;/span>&lt;span class="lnt">217
+&lt;/span>&lt;span class="lnt">218
+&lt;/span>&lt;span class="lnt">219
+&lt;/span>&lt;span class="lnt">220
+&lt;/span>&lt;span class="lnt">221
+&lt;/span>&lt;span class="lnt">222
+&lt;/span>&lt;span class="lnt">223
+&lt;/span>&lt;span class="lnt">224
+&lt;/span>&lt;span class="lnt">225
+&lt;/span>&lt;span class="lnt">226
+&lt;/span>&lt;span class="lnt">227
+&lt;/span>&lt;span class="lnt">228
+&lt;/span>&lt;span class="lnt">229
+&lt;/span>&lt;span class="lnt">230
+&lt;/span>&lt;span class="lnt">231
+&lt;/span>&lt;span class="lnt">232
+&lt;/span>&lt;span class="lnt">233
+&lt;/span>&lt;span class="lnt">234
+&lt;/span>&lt;span class="lnt">235
+&lt;/span>&lt;span class="lnt">236
+&lt;/span>&lt;span class="lnt">237
+&lt;/span>&lt;span class="lnt">238
+&lt;/span>&lt;span class="lnt">239
+&lt;/span>&lt;span class="lnt">240
+&lt;/span>&lt;span class="lnt">241
+&lt;/span>&lt;span class="lnt">242
+&lt;/span>&lt;span class="lnt">243
+&lt;/span>&lt;span class="lnt">244
+&lt;/span>&lt;span class="lnt">245
+&lt;/span>&lt;span class="lnt">246
+&lt;/span>&lt;span class="lnt">247
+&lt;/span>&lt;span class="lnt">248
+&lt;/span>&lt;span class="lnt">249
+&lt;/span>&lt;span class="lnt">250
+&lt;/span>&lt;span class="lnt">251
+&lt;/span>&lt;span class="lnt">252
+&lt;/span>&lt;span class="lnt">253
+&lt;/span>&lt;span class="lnt">254
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...cal/nvim-data/lazy/neotest/lua/neotest/lib/file/init.lua:225 | Path separator: \
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...al/nvim-data/lazy/neotest/lua/neotest/lib/subprocess.lua:33 | Starting child process
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...al/nvim-data/lazy/neotest/lua/neotest/lib/subprocess.lua:36 | Parent address: localhost:54013
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...al/nvim-data/lazy/neotest/lua/neotest/lib/subprocess.lua:42 | Starting child process with command: C:\Program Files\Neovim\bin\nvim.exe --embed --headless -n
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:378 | Initialising client
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting starting event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event starting
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...cal/nvim-data/lazy/neotest/lua/neotest/adapters/init.lua:18 | Found 1 adapters for directory C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...cal/nvim-data/lazy/neotest/lua/neotest/adapters/init.lua:19 | Adapters: { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> adapter = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> build_spec = &amp;lt;function 1&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> discover_positions = &amp;lt;function 2&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> filter_dir = &amp;lt;function 3&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> init = &amp;lt;function 4&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> is_test_file = &amp;lt;function 5&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;neotest-golang&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> results = &amp;lt;function 6&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> root = &amp;lt;function 7&amp;gt;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;lt;metatable&amp;gt; = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> __call = &amp;lt;function 8&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> root = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:279 | Searching C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings for test files
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:295 | Found { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;dir&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }, { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;file&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...nvim-data/lazy/neotest/lua/neotest/client/state/init.lua:54 | New positions at ID C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting discover_positions event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener diagnostic for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:325 | Discovering files with 24 workers
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener status for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener state for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:299 | Parsing C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...al/nvim-data/lazy/neotest/lua/neotest/lib/subprocess.lua:140 | Waiting for result 1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...al/nvim-data/lazy/neotest/lua/neotest/lib/subprocess.lua:91 | Result registed for callback 1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:305 | Found { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> range = { 0, 0, 22, 0 },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;file&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }, { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloName&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;TestHelloName&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> range = { 7, 0, 14, 1 },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;test&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } }, { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloEmpty&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;TestHelloEmpty&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> range = { 16, 0, 21, 1 },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;test&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...nvim-data/lazy/neotest/lua/neotest/client/state/init.lua:54 | New positions at ID C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting discover_positions event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener diagnostic for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener status for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener state for event discover_positions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...Local/nvim-data/lazy/neotest/lua/neotest/client/init.lua:494 | Initialisation finished in 0.03 seconds
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting test_file_focused event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event test_file_focused
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener diagnostic for event test_file_focused
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener status for event test_file_focused
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting started event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event started
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...nvim-data/lazy/neotest/lua/neotest/client/state/init.lua:85 | Setting positions to running C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting run event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event run
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener diagnostic for event run
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener status for event run
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener state for event run
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] Searching for go.mod in C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] Found go.mod at C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\go.mod
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] Running Go list: go list -json ./... in C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] JSON-decoded &amp;#39;go list&amp;#39; output: { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Deps = { &amp;#34;cmp&amp;#34;, &amp;#34;errors&amp;#34;, &amp;#34;fmt&amp;#34;, &amp;#34;internal/abi&amp;#34;, &amp;#34;internal/asan&amp;#34;, &amp;#34;internal/bisect&amp;#34;, &amp;#34;internal/bytealg&amp;#34;, &amp;#34;internal/byteorder&amp;#34;, &amp;#34;internal/chacha8rand&amp;#34;, &amp;#34;internal/coverage/rtcov&amp;#34;, &amp;#34;internal/cpu&amp;#34;, &amp;#34;internal/filepathlite&amp;#34;, &amp;#34;internal/fmtsort&amp;#34;, &amp;#34;internal/goarch&amp;#34;, &amp;#34;internal/godebug&amp;#34;, &amp;#34;internal/godebugs&amp;#34;, &amp;#34;internal/goexperiment&amp;#34;, &amp;#34;internal/goos&amp;#34;, &amp;#34;internal/itoa&amp;#34;, &amp;#34;internal/msan&amp;#34;, &amp;#34;internal/oserror&amp;#34;, &amp;#34;internal/poll&amp;#34;, &amp;#34;internal/profilerecord&amp;#34;, &amp;#34;internal/race&amp;#34;, &amp;#34;internal/reflectlite&amp;#34;, &amp;#34;internal/runtime/atomic&amp;#34;, &amp;#34;internal/runtime/exithook&amp;#34;, &amp;#34;internal/stringslite&amp;#34;, &amp;#34;internal/syscall/execenv&amp;#34;, &amp;#34;internal/syscall/windows&amp;#34;, &amp;#34;internal/syscall/windows/registry&amp;#34;, &amp;#34;internal/syscall/windows/sysdll&amp;#34;, &amp;#34;internal/testlog&amp;#34;, &amp;#34;internal/unsafeheader&amp;#34;, &amp;#34;io&amp;#34;, &amp;#34;io/fs&amp;#34;, &amp;#34;iter&amp;#34;, &amp;#34;math&amp;#34;, &amp;#34;math/bits&amp;#34;, &amp;#34;math/rand&amp;#34;, &amp;#34;os&amp;#34;, &amp;#34;path&amp;#34;, &amp;#34;reflect&amp;#34;, &amp;#34;runtime&amp;#34;, &amp;#34;runtime/internal/math&amp;#34;, &amp;#34;runtime/internal/sys&amp;#34;, &amp;#34;slices&amp;#34;, &amp;#34;strconv&amp;#34;, &amp;#34;sync&amp;#34;, &amp;#34;sync/atomic&amp;#34;, &amp;#34;syscall&amp;#34;, &amp;#34;time&amp;#34;, &amp;#34;unicode&amp;#34;, &amp;#34;unicode/utf16&amp;#34;, &amp;#34;unicode/utf8&amp;#34;, &amp;#34;unsafe&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Dir = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoFiles = { &amp;#34;greetings.go&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ImportPath = &amp;#34;takia.dev/greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Imports = { &amp;#34;errors&amp;#34;, &amp;#34;fmt&amp;#34;, &amp;#34;math/rand&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Match = { &amp;#34;./...&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Module = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Dir = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoMod = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\go.mod&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoVersion = &amp;#34;1.23.0&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Main = true,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Path = &amp;#34;takia.dev/greetings&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Name = &amp;#34;greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Root = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Stale = true,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> StaleReason = &amp;#34;build ID mismatch&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TestGoFiles = { &amp;#34;greetings_test.go&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TestImports = { &amp;#34;regexp&amp;#34;, &amp;#34;testing&amp;#34; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:59 | [neotest-golang] Test command: gotestsum --jsonfile=C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/1 --format=standard-verbose -- -v -race -count=1 takia.dev/greetings -run ^(^TestHelloName$|^TestHelloEmpty$)$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] RunSpec: {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> command = { &amp;#34;gotestsum&amp;#34;, &amp;#34;--jsonfile=C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/1&amp;#34;, &amp;#34;--format=standard-verbose&amp;#34;, &amp;#34;--&amp;#34;, &amp;#34;-v&amp;#34;, &amp;#34;-race&amp;#34;, &amp;#34;-count=1&amp;#34;, &amp;#34;takia.dev/greetings&amp;#34;, &amp;#34;-run&amp;#34;, &amp;#34;^(^TestHelloName$|^TestHelloEmpty$)$&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> context = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> golist_data = { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Deps = { &amp;#34;cmp&amp;#34;, &amp;#34;errors&amp;#34;, &amp;#34;fmt&amp;#34;, &amp;#34;internal/abi&amp;#34;, &amp;#34;internal/asan&amp;#34;, &amp;#34;internal/bisect&amp;#34;, &amp;#34;internal/bytealg&amp;#34;, &amp;#34;internal/byteorder&amp;#34;, &amp;#34;internal/chacha8rand&amp;#34;, &amp;#34;internal/coverage/rtcov&amp;#34;, &amp;#34;internal/cpu&amp;#34;, &amp;#34;internal/filepathlite&amp;#34;, &amp;#34;internal/fmtsort&amp;#34;, &amp;#34;internal/goarch&amp;#34;, &amp;#34;internal/godebug&amp;#34;, &amp;#34;internal/godebugs&amp;#34;, &amp;#34;internal/goexperiment&amp;#34;, &amp;#34;internal/goos&amp;#34;, &amp;#34;internal/itoa&amp;#34;, &amp;#34;internal/msan&amp;#34;, &amp;#34;internal/oserror&amp;#34;, &amp;#34;internal/poll&amp;#34;, &amp;#34;internal/profilerecord&amp;#34;, &amp;#34;internal/race&amp;#34;, &amp;#34;internal/reflectlite&amp;#34;, &amp;#34;internal/runtime/atomic&amp;#34;, &amp;#34;internal/runtime/exithook&amp;#34;, &amp;#34;internal/stringslite&amp;#34;, &amp;#34;internal/syscall/execenv&amp;#34;, &amp;#34;internal/syscall/windows&amp;#34;, &amp;#34;internal/syscall/windows/registry&amp;#34;, &amp;#34;internal/syscall/windows/sysdll&amp;#34;, &amp;#34;internal/testlog&amp;#34;, &amp;#34;internal/unsafeheader&amp;#34;, &amp;#34;io&amp;#34;, &amp;#34;io/fs&amp;#34;, &amp;#34;iter&amp;#34;, &amp;#34;math&amp;#34;, &amp;#34;math/bits&amp;#34;, &amp;#34;math/rand&amp;#34;, &amp;#34;os&amp;#34;, &amp;#34;path&amp;#34;, &amp;#34;reflect&amp;#34;, &amp;#34;runtime&amp;#34;, &amp;#34;runtime/internal/math&amp;#34;, &amp;#34;runtime/internal/sys&amp;#34;, &amp;#34;slices&amp;#34;, &amp;#34;strconv&amp;#34;, &amp;#34;sync&amp;#34;, &amp;#34;sync/atomic&amp;#34;, &amp;#34;syscall&amp;#34;, &amp;#34;time&amp;#34;, &amp;#34;unicode&amp;#34;, &amp;#34;unicode/utf16&amp;#34;, &amp;#34;unicode/utf8&amp;#34;, &amp;#34;unsafe&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Dir = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoFiles = { &amp;#34;greetings.go&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ImportPath = &amp;#34;takia.dev/greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Imports = { &amp;#34;errors&amp;#34;, &amp;#34;fmt&amp;#34;, &amp;#34;math/rand&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Match = { &amp;#34;./...&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Module = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Dir = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoMod = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\go.mod&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoVersion = &amp;#34;1.23.0&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Main = true,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Path = &amp;#34;takia.dev/greetings&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Name = &amp;#34;greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Root = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Stale = true,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> StaleReason = &amp;#34;build ID mismatch&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TestGoFiles = { &amp;#34;greetings_test.go&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TestImports = { &amp;#34;regexp&amp;#34;, &amp;#34;testing&amp;#34; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pos_id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> test_output_json_filepath = &amp;#34;C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/1&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cwd = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...data/lazy/neotest/lua/neotest/client/strategies/init.lua:36 | Starting process neotest-golang:C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings-C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go with strategy integrated
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...data/lazy/neotest/lua/neotest/client/strategies/init.lua:37 | Strategy spec {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> command = { &amp;#34;gotestsum&amp;#34;, &amp;#34;--jsonfile=C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/1&amp;#34;, &amp;#34;--format=standard-verbose&amp;#34;, &amp;#34;--&amp;#34;, &amp;#34;-v&amp;#34;, &amp;#34;-race&amp;#34;, &amp;#34;-count=1&amp;#34;, &amp;#34;takia.dev/greetings&amp;#34;, &amp;#34;-run&amp;#34;, &amp;#34;^(^TestHelloName$|^TestHelloEmpty$)$&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> context = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> golist_data = { {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Deps = { &amp;#34;cmp&amp;#34;, &amp;#34;errors&amp;#34;, &amp;#34;fmt&amp;#34;, &amp;#34;internal/abi&amp;#34;, &amp;#34;internal/asan&amp;#34;, &amp;#34;internal/bisect&amp;#34;, &amp;#34;internal/bytealg&amp;#34;, &amp;#34;internal/byteorder&amp;#34;, &amp;#34;internal/chacha8rand&amp;#34;, &amp;#34;internal/coverage/rtcov&amp;#34;, &amp;#34;internal/cpu&amp;#34;, &amp;#34;internal/filepathlite&amp;#34;, &amp;#34;internal/fmtsort&amp;#34;, &amp;#34;internal/goarch&amp;#34;, &amp;#34;internal/godebug&amp;#34;, &amp;#34;internal/godebugs&amp;#34;, &amp;#34;internal/goexperiment&amp;#34;, &amp;#34;internal/goos&amp;#34;, &amp;#34;internal/itoa&amp;#34;, &amp;#34;internal/msan&amp;#34;, &amp;#34;internal/oserror&amp;#34;, &amp;#34;internal/poll&amp;#34;, &amp;#34;internal/profilerecord&amp;#34;, &amp;#34;internal/race&amp;#34;, &amp;#34;internal/reflectlite&amp;#34;, &amp;#34;internal/runtime/atomic&amp;#34;, &amp;#34;internal/runtime/exithook&amp;#34;, &amp;#34;internal/stringslite&amp;#34;, &amp;#34;internal/syscall/execenv&amp;#34;, &amp;#34;internal/syscall/windows&amp;#34;, &amp;#34;internal/syscall/windows/registry&amp;#34;, &amp;#34;internal/syscall/windows/sysdll&amp;#34;, &amp;#34;internal/testlog&amp;#34;, &amp;#34;internal/unsafeheader&amp;#34;, &amp;#34;io&amp;#34;, &amp;#34;io/fs&amp;#34;, &amp;#34;iter&amp;#34;, &amp;#34;math&amp;#34;, &amp;#34;math/bits&amp;#34;, &amp;#34;math/rand&amp;#34;, &amp;#34;os&amp;#34;, &amp;#34;path&amp;#34;, &amp;#34;reflect&amp;#34;, &amp;#34;runtime&amp;#34;, &amp;#34;runtime/internal/math&amp;#34;, &amp;#34;runtime/internal/sys&amp;#34;, &amp;#34;slices&amp;#34;, &amp;#34;strconv&amp;#34;, &amp;#34;sync&amp;#34;, &amp;#34;sync/atomic&amp;#34;, &amp;#34;syscall&amp;#34;, &amp;#34;time&amp;#34;, &amp;#34;unicode&amp;#34;, &amp;#34;unicode/utf16&amp;#34;, &amp;#34;unicode/utf8&amp;#34;, &amp;#34;unsafe&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Dir = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoFiles = { &amp;#34;greetings.go&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ImportPath = &amp;#34;takia.dev/greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Imports = { &amp;#34;errors&amp;#34;, &amp;#34;fmt&amp;#34;, &amp;#34;math/rand&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Match = { &amp;#34;./...&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Module = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Dir = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoMod = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\go.mod&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> GoVersion = &amp;#34;1.23.0&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Main = true,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Path = &amp;#34;takia.dev/greetings&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Name = &amp;#34;greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Root = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Stale = true,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> StaleReason = &amp;#34;build ID mismatch&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TestGoFiles = { &amp;#34;greetings_test.go&amp;#34; },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TestImports = { &amp;#34;regexp&amp;#34;, &amp;#34;testing&amp;#34; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pos_id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> test_output_json_filepath = &amp;#34;C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/1&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cwd = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> strategy = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> height = 40,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> width = 120
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting test_focused event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:41Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event test_focused
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:42Z+0400 | ...data/lazy/neotest/lua/neotest/client/strategies/init.lua:56 | Process for position neotest-golang:C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings-C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go exited with code 1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...data/lazy/neotest/lua/neotest/client/strategies/init.lua:58 | Output of process C:\Users\takia.dev\AppData\Local\Temp\nvim.0\Ajb5cu\2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] Raw &amp;#39;go test&amp;#39; output: { &amp;#39;{&amp;#34;Time&amp;#34;:&amp;#34;2024-09-20T10:12:42.738978+04:00&amp;#34;,&amp;#34;Action&amp;#34;:&amp;#34;start&amp;#34;,&amp;#34;Package&amp;#34;:&amp;#34;takia.dev/greetings&amp;#34;}&amp;#39;, &amp;#39;{&amp;#34;Time&amp;#34;:&amp;#34;2024-09-20T10:12:42.738978+04:00&amp;#34;,&amp;#34;Action&amp;#34;:&amp;#34;output&amp;#34;,&amp;#34;Package&amp;#34;:&amp;#34;takia.dev/greetings&amp;#34;,&amp;#34;Output&amp;#34;:&amp;#34;FAIL\\ttakia.dev/greetings [build failed]\\n&amp;#34;}&amp;#39;, &amp;#39;{&amp;#34;Time&amp;#34;:&amp;#34;2024-09-20T10:12:42.738978+04:00&amp;#34;,&amp;#34;Action&amp;#34;:&amp;#34;fail&amp;#34;,&amp;#34;Package&amp;#34;:&amp;#34;takia.dev/greetings&amp;#34;,&amp;#34;Elapsed&amp;#34;:0}&amp;#39; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] Final internal test result data {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [&amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloEmpty&amp;#34;] = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> duplicate_test_detected = false,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> errors = {},
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> gotest_data = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> output = {},
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pkg = &amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> neotest_data = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloEmpty&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;TestHelloEmpty&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> range = { 16, 0, 21, 1 },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;test&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> status = &amp;#34;skipped&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [&amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloName&amp;#34;] = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> duplicate_test_detected = false,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> errors = {},
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> gotest_data = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> output = {},
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pkg = &amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> neotest_data = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> id = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloName&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> name = &amp;#34;TestHelloName&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> path = &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> range = { 7, 0, 14, 1 },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type = &amp;#34;test&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> status = &amp;#34;skipped&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">WARN | 2024-09-20T10:12:42Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:69 | [neotest-golang] Test(s) not associated (not found/executed): { &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloEmpty&amp;#34;, &amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloName&amp;#34; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...-data/lazy/neotest-golang/lua/neotest-golang/logging.lua:47 | [neotest-golang] Final Neotest result data {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [&amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go&amp;#34;] = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> output = &amp;#34;C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/5&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> status = &amp;#34;failed&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [&amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloEmpty&amp;#34;] = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> errors = {},
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> output = &amp;#34;C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/3&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> status = &amp;#34;skipped&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> },
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [&amp;#34;C:\\Users\\takia.dev\\Documents\\mydocs\\src\\golang\\tutorial\\greetings\\greetings_test.go::TestHelloName&amp;#34;] = {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> errors = {},
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> output = &amp;#34;C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/4&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> status = &amp;#34;skipped&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...nvim-data/lazy/neotest/lua/neotest/client/state/init.lua:70 | New results for adapter neotest-golang:C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting results event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener status for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener output for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener state for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener output_panel for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener diagnostic for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...m-data/lazy/neotest/lua/neotest/consumers/diagnostic.lua:55 | Setting diagnostics for C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go {}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener trouble for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener quickfix for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...nvim-data/lazy/neotest/lua/neotest/client/state/init.lua:70 | New results for adapter neotest-golang:C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INFO | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:48 | Emitting results event
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener status for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener output for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener state for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:42Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener output_panel for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...cal/nvim-data/lazy/neotest/lua/neotest/lib/file/init.lua:23 | Reading file: C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...cal/nvim-data/lazy/neotest/lua/neotest/lib/file/init.lua:23 | Reading file: C:/Users/takia.dev/AppData/Local/Temp/nvim.0/Ajb5cu/4
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener summary for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener diagnostic for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...m-data/lazy/neotest/lua/neotest/consumers/diagnostic.lua:55 | Setting diagnostics for C:\Users\takia.dev\Documents\mydocs\src\golang\tutorial\greetings\greetings_test.go {}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener trouble for event results
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DEBUG | 2024-09-20T10:12:43Z+0400 | ...vim-data/lazy/neotest/lua/neotest/client/events/init.lua:50 | Calling listener quickfix for event results
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>which is due to the same error as when running &lt;code>go test -race&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">go&lt;/span> &lt;span class="n">test&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">json&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">race&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># takia.dev/greetings.test&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Program&lt;/span> &lt;span class="n">Files&lt;/span>\&lt;span class="n">Go&lt;/span>\&lt;span class="n">pkg&lt;/span>\&lt;span class="k">tool&lt;/span>\&lt;span class="n">windows_amd64&lt;/span>\&lt;span class="n">link&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">exe&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">running&lt;/span> &lt;span class="n">clang&lt;/span> &lt;span class="n">failed&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">exit&lt;/span> &lt;span class="n">status&lt;/span> &lt;span class="mi">1104&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Program&lt;/span> &lt;span class="n">Files&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">x86&lt;/span>&lt;span class="p">)&lt;/span>\&lt;span class="n">Microsoft&lt;/span> &lt;span class="n">Visual&lt;/span> &lt;span class="n">Studio&lt;/span>\&lt;span class="mi">2022&lt;/span>\&lt;span class="n">BuildTools&lt;/span>\&lt;span class="n">VC&lt;/span>\&lt;span class="n">Tools&lt;/span>\&lt;span class="n">Llvm&lt;/span>\&lt;span class="n">x64&lt;/span>\&lt;span class="n">bin&lt;/span>\&lt;span class="n">clang&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">exe&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">m64&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">s&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">mconsole&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">tsaware&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">nxcompat&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">major&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">os&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">version&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">6&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">minor&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">os&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">version&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">major&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">subsystem&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">version&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">6&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">minor&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">subsystem&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">version&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="o">$&lt;/span>&lt;span class="n">WORK&lt;/span>\&lt;span class="n">b001&lt;/span>\&lt;span class="n">greetings&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">test&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">exe&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Qunused&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">arguments&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000000.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000001.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000002.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000003.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000004.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000005.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000006.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000007.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000008.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000009.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="mf">000010.&lt;/span>&lt;span class="n">o&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">O2&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">g&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">O2&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">g&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">no&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">pie&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">T&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">C&lt;/span>&lt;span class="p">:&lt;/span>\&lt;span class="n">Users&lt;/span>\&lt;span class="n">takia&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">dev&lt;/span>\&lt;span class="n">AppData&lt;/span>\&lt;span class="n">Local&lt;/span>\&lt;span class="n">Temp&lt;/span>\&lt;span class="n">go&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">link&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">2753284183&lt;/span>\&lt;span class="n">fix_debug_gdb_scripts&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ld&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">start&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">group&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">lmingwex&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">lmingw32&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">Wl&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">end&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">group&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">lkernel32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-tsaware&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-nxcompat&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-major-os-version=6&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-minor-os-version=1&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-major-subsystem-version=6&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-minor-subsystem-version=1&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/T&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-start-group&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">warning&lt;/span> &lt;span class="n">LNK4044&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">unrecognized&lt;/span> &lt;span class="n">option&lt;/span> &lt;span class="s1">&amp;#39;/-end-group&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">ignored&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">LINK&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">fatal&lt;/span> &lt;span class="n">error&lt;/span> &lt;span class="n">LNK1104&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">cannot&lt;/span> &lt;span class="n">open&lt;/span> &lt;span class="n">file&lt;/span> &lt;span class="s1">&amp;#39;mingwex.lib&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">clang&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">error&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">linker&lt;/span> &lt;span class="n">command&lt;/span> &lt;span class="n">failed&lt;/span> &lt;span class="n">with&lt;/span> &lt;span class="n">exit&lt;/span> &lt;span class="n">code&lt;/span> &lt;span class="mi">1104&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">use&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">v&lt;/span> &lt;span class="n">to&lt;/span> &lt;span class="n">see&lt;/span> &lt;span class="n">invocation&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>&lt;span class="s2">&amp;#34;Time&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;2024-09-20T10:32:59.8864019+04:00&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;start&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Package&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;takia.dev/greetings&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>&lt;span class="s2">&amp;#34;Time&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;2024-09-20T10:32:59.8864019+04:00&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;output&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Package&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;takia.dev/greetings&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Output&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;FAIL&lt;/span>&lt;span class="se">\t&lt;/span>&lt;span class="s2">takia.dev/greetings [build failed]&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>&lt;span class="s2">&amp;#34;Time&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;2024-09-20T10:32:59.8869511+04:00&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Action&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;fail&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Package&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="s2">&amp;#34;takia.dev/greetings&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;Elapsed&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mf">0.001&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
