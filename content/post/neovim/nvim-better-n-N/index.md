@@ -1,7 +1,7 @@
 ---
 title: "Vim: boost the power of the n/N keys!"
 description: Here is how to remap n/N keys to improve consistency accross vim motions and free keys on your keyboard
-slug: vim-better-n-p-keys
+slug: vim-better-n-N-keys
 date: 2024-09-20 05:00:00+0000
 categories:
     - Neovim
