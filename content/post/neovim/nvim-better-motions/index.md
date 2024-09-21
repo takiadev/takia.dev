@@ -56,62 +56,68 @@ MiniAi.move_cursor(direction, ai, k, {search_method=method}
 
 We can leverage this function to define a motion grammar:
 
-Let's say for instance that we repurpose the key `t` as our main motion operator:
+Let's say for instance that we repurpose the keys `n` and `p` as our main motion operators:
 
-- `t`: go to next start
-- `T`: go to next end
-- `tl`: go to prev start
-- `Tl`: go to prev end
-- `ti`: go to next start (inside)
-- `til`: go to prev start (inside)
+- `n`: go to next start
+- `p`: go to prev start
+- `ne`: go to next end
+- `pe`: go to prev end
+- `ni`: go to next start (inside)
+- `pi`: go to prev start (inside)
+
+First we retain the original behavior of `n` and `p` as follows:
+
+- `nm`: go to next search match
+- `pm`: go to prev search match
+
 
 We can define the following mappins to move to the next/prev start/end of a function:
 
 ```lua
--- tf: to next function (around)
-vim.keymap.set({"n", "x", "o"}, "tf", function() 
+-- nf: to next function (around)
+vim.keymap.set({"n", "x", "o"}, "nf", function() 
     return MiniAi.move_cursor("left", "a", k, 
     {search_method="next"})
 end, {silent=true})
 
--- Tf: to end of next function (around)
-vim.keymap.set({"n", "x", "o"}, "Tf", function() 
+-- nef: to end of next function (around)
+vim.keymap.set({"n", "x", "o"}, "nef", function() 
     return MiniAi.move_cursor("right", "a", k, 
     {search_method="cover_or_next"})
 end, {silent=true})
 
--- tif: to next function (inside)
-vim.keymap.set({"n", "x", "o"}, "tif", function() 
+-- nif: to next function (inside)
+vim.keymap.set({"n", "x", "o"}, "nif", function() 
     return MiniAi.move_cursor("left", "i", k, 
     {search_method="next"})
 end, {silent=true})
 
--- Tif: to end of function (inside)
-vim.keymap.set({"n", "x", "o"}, "Tif", function() 
+-- neif: to end of function (inside)
+vim.keymap.set({"n", "x", "o"}, "neif", function() 
     return MiniAi.move_cursor("right", "i", k, 
     {search_method="cover_or_next"})
 end, {silent=true})
 
--- tlf: to last function (around)
-vim.keymap.set({"n", "x", "o"}, "tlf", function() 
+-- pf: to prev function (around)
+vim.keymap.set({"n", "x", "o"}, "pf", function() 
     return MiniAi.move_cursor("left", "a", k, 
     {search_method="cover_or_prev"})
 end, {silent=true})
 
--- Tlf: to end of last function (around)
-vim.keymap.set({"n", "x", "o"}, "Tlf", function() 
+-- pef: to end of prev function (around)
+vim.keymap.set({"n", "x", "o"}, "pef", function() 
     return MiniAi.move_cursor("right", "a", k, 
     {search_method="prev"})
 end, {silent=true})
 
--- tilf: to last function (inside)
-vim.keymap.set({"n", "x", "o"}, "tilf", function() 
+-- pif: to prev function (inside)
+vim.keymap.set({"n", "x", "o"}, "pif", function() 
     return MiniAi.move_cursor("left", "i", k, 
     {search_method="cover_or_prev"})
 end, {silent=true})
 
--- Tilf: to end of last function (inside)
-vim.keymap.set({"n", "x", "o"}, "Tilf", function() 
+-- peif: to end of prev function (inside)
+vim.keymap.set({"n", "x", "o"}, "peif", function() 
     return MiniAi.move_cursor("right", "i", k, 
     {search_method="prev"})
 end, {silent=true})
