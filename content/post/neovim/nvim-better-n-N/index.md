@@ -83,7 +83,7 @@ ai = require("mini.ai")
 custom_textobjects = {
   f = ai.gen_spec.treesitter({ 
     a = "@function.outer", 
-    i = "@function.outer" })
+    i = "@function.inner" })
 }
 ```
 
